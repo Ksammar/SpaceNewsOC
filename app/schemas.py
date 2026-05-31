@@ -12,6 +12,8 @@ class NewsResponse(BaseModel):
     title: str
     url: str
     summary: str | None
+    title_ru: str | None = None
+    summary_ru: str | None = None
     image_url: str | None
     published_at: datetime | None
     category: CategoryEnum

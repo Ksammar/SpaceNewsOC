@@ -11,16 +11,11 @@ from app.config import settings
 from app.database import sync_engine
 from app.models import CategoryEnum, News, Source
 from app.services.classifier import classify_article, classify_with_llm
+from app.services.translator import translate_article
 
 logger = logging.getLogger(__name__)
 
 SOURCES: list[dict[str, Any]] = [
-    {
-        "name": "Space.com",
-        "url": "https://www.space.com",
-        "feed_url": "https://www.space.com/feeds/all",
-        "type": "rss",
-    },
     {
         "name": "NASA Breaking News",
         "url": "https://www.nasa.gov",
@@ -50,6 +45,12 @@ SOURCES: list[dict[str, Any]] = [
         "name": "RT на русском",
         "url": "https://russian.rt.com",
         "feed_url": "https://russian.rt.com/rss",
+        "type": "rss",
+    },
+    {
+        "name": "SpaceRef",
+        "url": "https://spaceref.com",
+        "feed_url": "https://spaceref.com/feed/",
         "type": "rss",
     },
     {
@@ -191,6 +192,13 @@ def _save_article(
     if _article_exists(session, article["url"]):
         return None
 
+    title_ru = None
+    summary_ru = None
+    if settings.openai_api_key:
+        title_ru, summary_ru = translate_article(
+            article["title"], article.get("summary")
+        )
+
     news = News(
         title=article["title"],
         url=article["url"],
@@ -200,6 +208,8 @@ def _save_article(
         published_at=article.get("published_at"),
         category=category,
         source_id=source.id,
+        title_ru=title_ru,
+        summary_ru=summary_ru,
     )
     session.add(news)
     return news
@@ -224,6 +234,9 @@ def run_parser():
                 text_for_classify = f"{article['title']} {article.get('summary', '')}"
 
                 category = classify_article(text_for_classify)
+
+                if category is None:
+                    continue
 
                 if settings.openai_api_key:
                     llm_category = classify_with_llm(

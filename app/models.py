@@ -44,6 +44,8 @@ class News(Base):
     )
     summary: Mapped[str | None] = mapped_column(Text, nullable=True)
     content: Mapped[str | None] = mapped_column(Text, nullable=True)
+    title_ru: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    summary_ru: Mapped[str | None] = mapped_column(Text, nullable=True)
     image_url: Mapped[str | None] = mapped_column(String(1000), nullable=True)
     published_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     category: Mapped[CategoryEnum] = mapped_column(

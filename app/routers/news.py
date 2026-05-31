@@ -21,6 +21,8 @@ def _news_to_response(news: News) -> NewsResponse:
         title=news.title,
         url=news.url,
         summary=news.summary,
+        title_ru=news.title_ru,
+        summary_ru=news.summary_ru,
         image_url=news.image_url,
         published_at=news.published_at,
         category=news.category,

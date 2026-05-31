@@ -5,6 +5,8 @@ export interface NewsItem {
   title: string;
   url: string;
   summary: string | null;
+  title_ru: string | null;
+  summary_ru: string | null;
   image_url: string | null;
   published_at: string | null;
   category: Category;

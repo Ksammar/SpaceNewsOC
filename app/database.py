@@ -21,4 +21,5 @@ async def get_async_session():
 
 
 def init_db():
+    import app.models  # noqa: F401 — register tables in Base.metadata
     Base.metadata.create_all(bind=sync_engine)

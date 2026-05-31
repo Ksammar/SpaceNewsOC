@@ -55,12 +55,12 @@ export default function NewsCard({ news }: NewsCardProps) {
           </div>
 
           <h3 className="font-semibold text-sm leading-snug text-gray-100 group-hover:text-white transition-colors mb-2 line-clamp-3">
-            {news.title}
+            {news.title_ru || news.title}
           </h3>
 
-          {news.summary && (
+          {(news.summary_ru || news.summary) && (
             <p className="text-xs text-space-400 line-clamp-2 mb-3 flex-1">
-              {news.summary}
+              {news.summary_ru || news.summary}
             </p>
           )}
 
