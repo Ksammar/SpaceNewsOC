@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/api/client.ts","./src/components/categorycolumn.tsx","./src/components/header.tsx","./src/components/newscard.tsx","./src/types/news.ts"],"version":"5.9.3"}
